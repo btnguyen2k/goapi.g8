@@ -9,6 +9,7 @@ package main
 import (
 	"main/src/goems"
 	"main/src/samples"
+	"main/src/samples_api_filters"
 	"main/src/samples_crud_mongodb"
 	"main/src/samples_crud_pgsql"
 	"math/rand"
@@ -23,5 +24,5 @@ func main() {
 	// bootstrapper routine is passed the echo.Echo instance as argument, and also has access to
 	// - Application configurations via global variable goems.AppConfig
 	// - itineris.ApiRouter instance via global variable goems.ApiRouter
-	goems.Start(samples.Bootstrapper, samples_crud_mongodb.Bootstrapper, samples_crud_pgsql.Bootstrapper)
+	goems.Start(samples.Bootstrapper, samples_crud_mongodb.Bootstrapper, samples_crud_pgsql.Bootstrapper, samples_api_filters.Bootstrapper)
 }
