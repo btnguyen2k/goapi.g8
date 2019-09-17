@@ -198,7 +198,7 @@ func (logger *WriterRequestLogger) PostApiCall(durationNano, concurrency int64, 
 		logger.FieldAppName:        logger.appName,
 		logger.FieldAppVersion:     logger.appVersion,
 		logger.FieldId:             ctx.GetId(),
-		logger.FieldStage:          "START",
+		logger.FieldStage:          "END",
 		logger.FieldApiName:        ctx.GetApiName(),
 		logger.FieldGateway:        ctx.GetGateway(),
 		logger.FieldTimestampStart: ctx.GetTimestamp().UnixNano() / 1000000, // convert to milliseconds
@@ -207,6 +207,7 @@ func (logger *WriterRequestLogger) PostApiCall(durationNano, concurrency int64, 
 		logger.FieldContext:        ctx.GetAllContextValues(),
 		logger.FieldAuth:           logger.buildAuthMap(auth),
 		logger.FieldParams:         params.GetAllParams(),
+		logger.FieldResult:         result.ToMap(),
 	}
 	logger.writeLog(data)
 }

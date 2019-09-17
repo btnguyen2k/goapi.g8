@@ -97,3 +97,33 @@ func (f *LoggingFilter) Call(handler IApiHandler, ctx *ApiContext, auth *ApiAuth
 	f.logger.PostApiCall(time.Since(now).Nanoseconds(), f.apiRouter.GetConcurrency(), ctx, auth, params, apiResult)
 	return apiResult
 }
+
+/*----------------------------------------------------------------------*/
+
+/*
+AuthenticationFilter performs authentication check before calling API.
+*/
+type AuthenticationFilter struct {
+	*BaseApiFilter
+	auth IApiAuthenticator
+}
+
+/*
+NewAuthenticationFilter creates a new AuthenticationFilter instance.
+*/
+func NewAuthenticationFilter(apiRouter *ApiRouter, nextFilter IApiFilter, auth IApiAuthenticator) *AuthenticationFilter {
+	return &AuthenticationFilter{BaseApiFilter: &BaseApiFilter{apiRouter: apiRouter, nextFilter: nextFilter}, auth: auth}
+}
+
+/*
+Call implements IApiFilter.Call
+*/
+func (f *AuthenticationFilter) Call(handler IApiHandler, ctx *ApiContext, auth *ApiAuth, params *ApiParams) *ApiResult {
+	if !f.auth.Authenticate(ctx, auth) {
+		return ResultNoPermission
+	}
+	if f.nextFilter != nil {
+		return f.nextFilter.Call(handler, ctx, auth, params)
+	}
+	return handler(ctx, auth, params)
+}
