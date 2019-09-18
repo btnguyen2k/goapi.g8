@@ -21,6 +21,8 @@ func (b *MyBootstrapper) Bootstrap() error {
 	// filters are LIFO:
 	// - request goes through the last filter to the first one
 	// - response goes through the first filter to the last one
+	// suggested order of filters:
+	// - Request logger should be the last one to capture full request/response
 	apiFilter = itineris.NewAddPerfInfoFilter(goems.ApiRouter, apiFilter)
 	apiFilter = itineris.NewLoggingFilter(goems.ApiRouter, apiFilter, itineris.NewWriterPerfLogger(os.Stderr, appName, appVersion))
 	apiFilter = itineris.NewAuthenticationFilter(goems.ApiRouter, apiFilter, NewDummyApiAuthenticator())

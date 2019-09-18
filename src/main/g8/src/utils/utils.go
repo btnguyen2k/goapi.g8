@@ -2,7 +2,7 @@
 Package utils provides a utility/helper functions that can be used by the application.
 
 @author Thanh Nguyen <btnguyen2k@gmail.com>
-@since template-v0.1.0
+@since template-v0.4.r1
 */
 package utils
 
@@ -64,73 +64,3 @@ func RandomString(l int) string {
 	}
 	return string(b)
 }
-
-// /*
-// PadRight adds "0" right right of a string until its length reach a specific value.
-// */
-// func PadRight(str string, l int) string {
-//     for len(str) < l {
-//         str += "0"
-//     }
-//     return str
-// }
-//
-// /*
-// AesEncrypt encrypts a block of data using AES/CTR mode.
-//
-// IV is put at the beginning of the cipher data.
-// */
-// func AesEncrypt(key, data []byte) ([]byte, error) {
-//     block, err := aes.NewCipher(key)
-//     if err != nil {
-//         return nil, err
-//     }
-//     iv := []byte(PadRight(strconv.FormatInt(time.Now().UnixNano(), 16), 16))
-//     cipherData := make([]byte, 16+len(data))
-//     copy(cipherData, iv)
-//     ctr := cipher.NewCTR(block, iv)
-//     ctr.XORKeyStream(cipherData[16:], data)
-//     return cipherData, nil
-// }
-//
-// /*
-// AesDecrypt decrypts a block of encrypted data using AES/CTR mode.
-//
-// Assuming IV is put at the beginning of the cipher data.
-// */
-// func AesDecrypt(key, encryptedData []byte) ([]byte, error) {
-//     block, err := aes.NewCipher(key)
-//     if err != nil {
-//         return nil, err
-//     }
-//     iv := encryptedData[0:16]
-//     data := make([]byte, len(encryptedData)-16)
-//     ctr := cipher.NewCTR(block, iv)
-//     ctr.XORKeyStream(data, encryptedData[16:])
-//     return data, nil
-// }
-//
-// /*
-// ZlibCompress compresses data using zlib.
-// */
-// func ZlibCompress(data []byte) []byte {
-//     var b bytes.Buffer
-//     w, _ := zlib.NewWriterLevel(&b, zlib.BestCompression)
-//     w.Write(data)
-//     w.Close()
-//     return b.Bytes()
-// }
-//
-// /*
-// ZlibDecompress decompressed compressed-data using zlib.
-// */
-// func ZlibDecompress(compressedData []byte) ([]byte, error) {
-//     r, err := zlib.NewReader(bytes.NewReader(compressedData))
-//     if err != nil {
-//         return nil, err
-//     }
-//     var b bytes.Buffer
-//     _, err = io.Copy(&b, r)
-//     r.Close()
-//     return b.Bytes(), err
-// }

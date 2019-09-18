@@ -5,7 +5,7 @@ Package itineris creates a framework that help building API server over HTTP and
     Data is interchanged (request/response) in JSON format; can be gzipped to reduce space/transmit time consumption.
 
 @author Thanh Nguyen <btnguyen2k@gmail.com>
-@since template-v0.1.0
+@since template-v0.4.r1
 */
 package itineris
 
