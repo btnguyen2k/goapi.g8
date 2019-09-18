@@ -22,7 +22,7 @@ See [samples](src/samples) for example of bootstrapper and API handler.
 
 ### Configurations
 
-Default application configuration file is [config/application.conf](config/application.conf).
+Default application configuration file is [config/application.conf](config/application.conf), override default value via env `APP_CONFIG`.
 Configurations are in [HOCON format](https://github.com/lightbend/config/blob/master/HOCON.md).
 
 Important configurations:
