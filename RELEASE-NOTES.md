@@ -7,4 +7,4 @@ First release:
 - Echo `v4.1.10`.
 - JSON-encoded REST API framework.
 - API Samples.
-- Sample `.gitlab-ci.yaml`
+- Sample `.gitlab-ci.yaml` & `Dockerfile`
