@@ -43,7 +43,8 @@ app {
 ```
 api {
   http {
-    # Listen address & port for HTTP gateway.
+    # Listen address & port for HTTP/REST API gateway.
+    # set listen_port=0 to disable HTTP/REST API gateway.
     listen_addr = "0.0.0.0"
     listen_port = 8080
 
@@ -53,6 +54,13 @@ api {
     # Name of HTTP header that holds "access token" info passed from client.
     # override this setting with env HTTP_HEADER_ACCESS_TOKEN
     header_access_token = "X-Access-Token"
+  }
+
+  grpc {
+    # Listen address & port for gRPC API gateway.
+    # set listen_port=0 to disable gRPC API gateway.
+    listen_addr = "0.0.0.0"
+    listen_port = 8090
   }
 
   # Client cannot send request that exceeds this size

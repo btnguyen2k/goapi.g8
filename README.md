@@ -2,18 +2,19 @@
 
 Giter8 template to develop microservices in Go using Echo framework.
 
-Latest release: [template-v0.4.r1](RELEASE-NOTES.md).
+Latest release: [template-v0.4.r2](RELEASE-NOTES.md).
 
 ## Features
 
 - Create new project from template with [go-giter8](https://github.com/btnguyen2k/go-giter8).
 - API framework:
-  - Built on top [Echo Framework v4](https://echo.labstack.com).
-  - JSON-encoded (request/response) RESTful APIs.
+  - JSON-encoded.
   - Plugable filters, included built-in ones:
     - `AddPerfInfoFilter`
     - `LoggingFilter`
     - `AuthenticationFilter`
+  - REST API gateway built on top [Echo Framework v4](https://echo.labstack.com).
+  - gRPC API gateway (since [template-v0.4.r2](RELEASE-NOTES.md)).
 - Samples:
   - [Trivial APIs](src/main/g8/src/samples)
   - [CRUD APIs with MongoDB](src/main/g8/src/samples_crud_mongodb)

@@ -9,5 +9,5 @@ package goems
 
 const (
 	// Version of goems
-	Version = "0.4.r1"
+	Version = "0.4.r2"
 )
