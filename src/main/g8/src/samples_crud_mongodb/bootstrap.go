@@ -3,7 +3,7 @@ package samples_crud_mongodb
 import (
 	"github.com/btnguyen2k/prom"
 	"log"
-	"main/src/goems"
+	"main/src/goapi"
 	"main/src/itineris"
 )
 
@@ -22,7 +22,7 @@ const (
 )
 
 /*
-Bootstrap implements goems.IBootstrapper.Bootstrap
+Bootstrap implements goapi.IBootstrapper.Bootstrap
 
 Bootstrapper usually does:
 - register api-handlers with the global ApiRouter
@@ -30,15 +30,15 @@ Bootstrapper usually does:
 */
 func (b *MyBootstrapper) Bootstrap() error {
 	initDaos()
-	initApiHandlers(goems.ApiRouter)
+	initApiHandlers(goapi.ApiRouter)
 	return nil
 }
 
 // construct an 'prom.MongoConnect' instance
 func createMongoConnect() *prom.MongoConnect {
-	url := goems.AppConfig.GetString("samples_crud_mongodb.mongodb.url", "mongodb://test:test@localhost:27017/test")
-	db := goems.AppConfig.GetString("samples_crud_mongodb.mongodb.db", "test")
-	timeoutMs := goems.AppConfig.GetInt32("samples_crud_mongodb.mongodb.timeout", 10000)
+	url := goapi.AppConfig.GetString("samples_crud_mongodb.mongodb.url", "mongodb://test:test@localhost:27017/test")
+	db := goapi.AppConfig.GetString("samples_crud_mongodb.mongodb.db", "test")
+	timeoutMs := goapi.AppConfig.GetInt32("samples_crud_mongodb.mongodb.timeout", 10000)
 	mongoConnect, err := prom.NewMongoConnect(url, db, int(timeoutMs))
 	if mongoConnect == nil || err != nil {
 		if err != nil {

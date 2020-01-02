@@ -5,7 +5,7 @@ import (
 )
 
 /*
-IApiFilter is pluggable component that is used to intercept API call and do some pre-processing, intercept result and do post-processing before returning to caller.
+IApiFilter is plugable component that is used to intercept API call and do some pre-processing, intercept result and do some post-processing before returning to caller.
 */
 type IApiFilter interface {
 	Call(IApiHandler, *ApiContext, *ApiAuth, *ApiParams) *ApiResult

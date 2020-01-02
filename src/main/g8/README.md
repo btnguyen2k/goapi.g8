@@ -1,16 +1,16 @@
 # $name$
 
-**$desc$** by **$app_author$ - $organization$**, based on [go_echo-microservices-seed.g8](https://github.com/btnguyen2k/go_echo-microservices-seed.g8).
+**$desc$** by **$author$ - $organization$**, based on [go_echo-microservices-seed.g8](https://github.com/btnguyen2k/go_echo-microservices-seed.g8).
 
 Copyright (C) by **$organization$**.
 
-Latest release version: `$app_version$`. See [RELEASE-NOTES.md](RELEASE-NOTES.md).
+Latest release version: `$version$`. See [RELEASE-NOTES.md](RELEASE-NOTES.md).
 
 ## Getting Started
 
 ### Application Bootstrapper & API Handlers
 
-Implement application bootstrapper by implementing interface `goems.IBootstrapper`.
+Implement application bootstrapper by implementing interface `ggoapi.IBootstrapper`.
 
 API handler is defined as
 
@@ -31,10 +31,10 @@ Important configurations:
 
 ```
 app {
-  name: "Application's name"
-  shortname: "Application's short name, e.g. goems"
-  version: "Application's version string, e.g. 1.0.0"
-  desc: "Application's description, e.g. Caching services with RESTful APIs"
+  name     : "Application's name"
+  shortname: "Application's short name, e.g. goapi"
+  version  : "Application's version string, e.g. 1.0.0"
+  desc     : "Application's description, e.g. Caching services with RESTful APIs"
 }
 ```
 

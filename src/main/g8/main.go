@@ -7,7 +7,7 @@ Application Server bootstrapper.
 package main
 
 import (
-	"main/src/goems"
+	"main/src/goapi"
 	"main/src/samples"
 	"main/src/samples_api_filters"
 	"main/src/samples_crud_mongodb"
@@ -22,13 +22,13 @@ func main() {
 
 	// start Echo server with custom bootstrappers
 	// bootstrapper routine is passed the echo.Echo instance as argument, and also has access to
-	// - Application configurations via global variable goems.AppConfig
-	// - itineris.ApiRouter instance via global variable goems.ApiRouter
-	var bootstrappers = []goems.IBootstrapper{
+	// - Application configurations via global variable goapi.AppConfig
+	// - itineris.ApiRouter instance via global variable goapi.ApiRouter
+	var bootstrappers = []goapi.IBootstrapper{
 		samples.Bootstrapper,
 		samples_crud_mongodb.Bootstrapper,
 		samples_crud_pgsql.Bootstrapper,
 		samples_api_filters.Bootstrapper,
 	}
-	goems.Start(bootstrappers...)
+	goapi.Start(bootstrappers...)
 }

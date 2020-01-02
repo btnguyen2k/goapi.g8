@@ -11,7 +11,6 @@ RUN cd /build && go build -o main
 FROM alpine:3.10
 RUN mkdir /app
 COPY --from=builder /build/main /app/main
-COPY --from=builder /build/README.md /app/README.md
 COPY --from=builder /build/config /app/config
 RUN apk add --no-cache -U tzdata bash ca-certificates \
     && update-ca-certificates \

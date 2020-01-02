@@ -1,7 +1,7 @@
 package samples_api_filters
 
 import (
-	"main/src/goems"
+	"main/src/goapi"
 	"main/src/itineris"
 	"os"
 	"strconv"
@@ -15,20 +15,20 @@ var Bootstrapper = &MyBootstrapper{name: "samples_api_filters"}
 
 func (b *MyBootstrapper) Bootstrap() error {
 	var apiFilter itineris.IApiFilter = nil
-	appName := goems.AppConfig.GetString("app.name")
-	appVersion := goems.AppConfig.GetString("app.version")
+	appName := goapi.AppConfig.GetString("app.name")
+	appVersion := goapi.AppConfig.GetString("app.version")
 
 	// filters are LIFO:
 	// - request goes through the last filter to the first one
 	// - response goes through the first filter to the last one
 	// suggested order of filters:
 	// - Request logger should be the last one to capture full request/response
-	apiFilter = itineris.NewAddPerfInfoFilter(goems.ApiRouter, apiFilter)
-	apiFilter = itineris.NewLoggingFilter(goems.ApiRouter, apiFilter, itineris.NewWriterPerfLogger(os.Stderr, appName, appVersion))
-	apiFilter = itineris.NewAuthenticationFilter(goems.ApiRouter, apiFilter, NewDummyApiAuthenticator())
-	apiFilter = itineris.NewLoggingFilter(goems.ApiRouter, apiFilter, itineris.NewWriterRequestLogger(os.Stdout, appName, appVersion))
+	apiFilter = itineris.NewAddPerfInfoFilter(goapi.ApiRouter, apiFilter)
+	apiFilter = itineris.NewLoggingFilter(goapi.ApiRouter, apiFilter, itineris.NewWriterPerfLogger(os.Stderr, appName, appVersion))
+	apiFilter = itineris.NewAuthenticationFilter(goapi.ApiRouter, apiFilter, NewDummyApiAuthenticator())
+	apiFilter = itineris.NewLoggingFilter(goapi.ApiRouter, apiFilter, itineris.NewWriterRequestLogger(os.Stdout, appName, appVersion))
 
-	goems.ApiRouter.SetApiFilter(apiFilter)
+	goapi.ApiRouter.SetApiFilter(apiFilter)
 	return nil
 }
 

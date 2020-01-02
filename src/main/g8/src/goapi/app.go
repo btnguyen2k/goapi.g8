@@ -1,4 +1,4 @@
-package goems
+package goapi
 
 import (
 	"encoding/json"

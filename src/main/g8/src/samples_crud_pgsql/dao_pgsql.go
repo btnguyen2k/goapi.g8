@@ -24,7 +24,7 @@ func NewDaoDepartmentPgsql(sqlc *prom.SqlConnect, tableName string) IDaoDepartme
 	dao := &DaoDepartmentPgsql{tableName: tableName}
 	dao.GenericDaoSql = sql.NewGenericDaoSql(sqlc, godal.NewAbstractGenericDao(dao))
 	dao.SetSqlFlavor(prom.FlavorPgSql)
-	dao.SetRowMapper(&sql.GenericRowMapperSql{ColNameTrans: sql.ColNameTransLowerCase, ColumnsListMap: map[string][]string{tableName: tableColumns}})
+	dao.SetRowMapper(&sql.GenericRowMapperSql{NameTransformation: sql.NameTransfLowerCase, ColumnsListMap: map[string][]string{tableName: tableColumns}})
 	return dao
 }
 

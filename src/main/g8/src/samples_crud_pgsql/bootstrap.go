@@ -5,7 +5,7 @@ import (
 	"github.com/btnguyen2k/prom"
 	_ "github.com/lib/pq"
 	"log"
-	"main/src/goems"
+	"main/src/goapi"
 	"main/src/itineris"
 	"main/src/utils"
 )
@@ -27,7 +27,7 @@ const (
 )
 
 /*
-Bootstrap implements goems.IBootstrapper.Bootstrap
+Bootstrap implements goapi.IBootstrapper.Bootstrap
 
 Bootstrapper usually does:
 - register api-handlers with the global ApiRouter
@@ -35,7 +35,7 @@ Bootstrapper usually does:
 */
 func (b *MyBootstrapper) Bootstrap() error {
 	initDaos()
-	initApiHandlers(goems.ApiRouter)
+	initApiHandlers(goapi.ApiRouter)
 	return nil
 }
 
@@ -43,9 +43,9 @@ func (b *MyBootstrapper) Bootstrap() error {
 //
 // - DO NOT FORGET to import sql driver for postgres, such as: import _ "github.com/lib/pq"
 func createSqlConnect() *prom.SqlConnect {
-	driver := goems.AppConfig.GetString("samples_crud_pgsql.driver", "postgres")
-	dsn := goems.AppConfig.GetString("samples_crud_pgsql.postgres.url", "postgres://test:test@localhost:5432/test?client_encoding=UTF-8&application_name=gems")
-	timeoutMs := goems.AppConfig.GetInt32("samples_crud_pgsql.postgres.timeout", 10000)
+	driver := goapi.AppConfig.GetString("samples_crud_pgsql.driver", "postgres")
+	dsn := goapi.AppConfig.GetString("samples_crud_pgsql.postgres.url", "postgres://test:test@localhost:5432/test?client_encoding=UTF-8&application_name=gems")
+	timeoutMs := goapi.AppConfig.GetInt32("samples_crud_pgsql.postgres.timeout", 10000)
 	sqlConnect, err := prom.NewSqlConnectWithFlavor(driver, dsn, int(timeoutMs), nil, prom.FlavorPgSql)
 	if sqlConnect == nil || err != nil {
 		if err != nil {
