@@ -6,16 +6,18 @@ import (
 	"github.com/btnguyen2k/godal/sql"
 	"github.com/btnguyen2k/prom"
 	_ "github.com/lib/pq"
+	"main/src/goapi"
 	"time"
 )
 
 // newPgsqlConnection is helper method to create connection pool to PostgreSQL server
 func newPgsqlConnection() *prom.SqlConnect {
-	timeoutMs := 10000
-	timezone := "Asia/Ho_Chi_Minh"
+	// read from config or use default value
 	driver := "postgres"
-	dsn := "postgres://test:test@localhost:5432/test?sslmode=disable&client_encoding=UTF-8&application_name=$boname__lower$"
-	if sqlConnect, err := prom.NewSqlConnectWithFlavor(driver, dsn, timeoutMs, nil, prom.FlavorPgSql); err != nil {
+	timeoutMs := goapi.AppConfig.GetInt32("dao$boname__lower$.pgsql.timeout", 10000)
+	timezone := goapi.AppConfig.GetString("dao$boname__lower$.pgsql.timezone", "Asia/Ho_Chi_Minh")
+	dsn := goapi.AppConfig.GetString("dao$boname__lower$.pgsql.dsn", "postgres://test:test@localhost:5432/test?sslmode=disable&client_encoding=UTF-8&application_name=$boname__lower$")
+	if sqlConnect, err := prom.NewSqlConnectWithFlavor(driver, dsn, int(timeoutMs), nil, prom.FlavorPgSql); err != nil {
 		panic(err)
 	} else if sqlConnect == nil {
 		panic("error creating [prom.SqlConnect] instance")
@@ -32,9 +34,9 @@ func new$boname;format="Camel"$DaoPgsql(sqlc *prom.SqlConnect, tableName string)
 	dao.GenericDaoSql = sql.NewGenericDaoSql(sqlc, godal.NewAbstractGenericDao(dao))
 	dao.SetRowMapper(&sql.GenericRowMapperSql{
 		NameTransformation:          sql.NameTransfLowerCase,
-		GboFieldToColNameTranslator: map[string]map[string]interface{}{tableName: mapFieldToColName$boname;format="Camel"$},
-		ColNameToGboFieldTranslator: map[string]map[string]interface{}{tableName: mapColNameToField$boname;format="Camel"$},
-		ColumnsListMap:              map[string][]string{tableName: cols$boname;format="Camel"$},
+		GboFieldToColNameTranslator: map[string]map[string]interface{}{tableName: mapPgsqlFieldToColName$boname;format="Camel"$},
+		ColNameToGboFieldTranslator: map[string]map[string]interface{}{tableName: mapPgsqlColNameToField$boname;format="Camel"$},
+		ColumnsListMap:              map[string][]string{tableName: colsPgsql$boname;format="Camel"$},
 	})
 	dao.SetSqlFlavor(prom.FlavorPgSql)
 	return dao
@@ -52,23 +54,23 @@ CREATE TABLE IF NOT EXISTS tbl_$boname__lower$ (
 */
 
 const (
-	table$boname;format="Camel"$    = "tbl_$boname__lower$"
-	col$boname;format="Camel"$Id    = "id"
-	col$boname;format="Camel"$Name  = "val_str"
-	col$boname;format="Camel"$Value = "val_int"
+	tablePgsql$boname;format="Camel"$    = "tbl_$boname__lower$"
+	colPgsql$boname;format="Camel"$Id    = "id"
+	colPgsql$boname;format="Camel"$Name  = "val_str"
+	colPgsql$boname;format="Camel"$Value = "val_int"
 )
 
 var (
-	cols$boname;format="Camel"$              = []string{col$boname;format="Camel"$Id, col$boname;format="Camel"$Name, col$boname;format="Camel"$Value}
-	mapFieldToColName$boname;format="Camel"$ = map[string]interface{}{
-		field$boname;format="Camel"$Id   : col$boname;format="Camel"$Id,
-		field$boname;format="Camel"$Name : col$boname;format="Camel"$Name,
-		field$boname;format="Camel"$Value: col$boname;format="Camel"$Value,
+	colsPgsql$boname;format="Camel"$              = []string{colPgsql$boname;format="Camel"$Id, colPgsql$boname;format="Camel"$Name, colPgsql$boname;format="Camel"$Value}
+	mapPgsqlFieldToColName$boname;format="Camel"$ = map[string]interface{}{
+		field$boname;format="Camel"$Id   : colPgsql$boname;format="Camel"$Id,
+		field$boname;format="Camel"$Name : colPgsql$boname;format="Camel"$Name,
+		field$boname;format="Camel"$Value: colPgsql$boname;format="Camel"$Value,
 	}
-	mapColNameToField$boname;format="Camel"$ = map[string]interface{}{
-		col$boname;format="Camel"$Id   : field$boname;format="Camel"$Id,
-		col$boname;format="Camel"$Name : field$boname;format="Camel"$Name,
-		col$boname;format="Camel"$Value: field$boname;format="Camel"$Value,
+	mapPgsqlColNameToField$boname;format="Camel"$ = map[string]interface{}{
+		colPgsql$boname;format="Camel"$Id   : field$boname;format="Camel"$Id,
+		colPgsql$boname;format="Camel"$Name : field$boname;format="Camel"$Name,
+		colPgsql$boname;format="Camel"$Value: field$boname;format="Camel"$Value,
 	}
 )
 
@@ -79,7 +81,7 @@ type $boname;format="Camel"$DaoPgsql struct {
 
 // GdaoCreateFilter implements IGenericDao.GdaoCreateFilter
 func (dao *$boname;format="Camel"$DaoPgsql) GdaoCreateFilter(_ string, bo godal.IGenericBo) interface{} {
-	return map[string]interface{}{col$boname;format="Camel"$Id: bo.GboGetAttrUnsafe(field$boname;format="Camel"$Id, reddo.TypeString)}
+	return map[string]interface{}{colPgsql$boname;format="Camel"$Id: bo.GboGetAttrUnsafe(field$boname;format="Camel"$Id, reddo.TypeString)}
 }
 
 // ‭toBo transforms godal.IGenericBo to business object.
@@ -121,7 +123,7 @@ func (dao *$boname;format="Camel"$DaoPgsql) Create(bo *$boname;format="Camel"$) 
 
 // Get implements $boname;format="Camel"$Dao.Get
 func (dao *$boname;format="Camel"$DaoPgsql) Get(id string) (*$boname;format="Camel"$, error) {
-	gbo, err := dao.GdaoFetchOne(dao.tableName, map[string]interface{}{col$boname;format="Camel"$Id: id})
+	gbo, err := dao.GdaoFetchOne(dao.tableName, map[string]interface{}{colPgsql$boname;format="Camel"$Id: id})
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +133,7 @@ func (dao *$boname;format="Camel"$DaoPgsql) Get(id string) (*$boname;format="Cam
 // GetN implements $boname;format="Camel"$Dao.GetN
 func (dao *$boname;format="Camel"$DaoPgsql) GetN(fromOffset, maxNumRows int) ([]*$boname;format="Camel"$, error) {
 	// order ascending by "id" column
-	ordering := (&sql.GenericSorting{Flavor: dao.GetSqlFlavor()}).Add(col$boname;format="Camel"$Id)
+	ordering := (&sql.GenericSorting{Flavor: dao.GetSqlFlavor()}).Add(colPgsql$boname;format="Camel"$Id)
 	gboList, err := dao.GdaoFetchMany(dao.tableName, nil, ordering, fromOffset, maxNumRows)
 	if err != nil {
 		return nil, err

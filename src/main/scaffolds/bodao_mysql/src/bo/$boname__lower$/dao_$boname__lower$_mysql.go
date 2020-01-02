@@ -6,18 +6,20 @@ import (
 	"github.com/btnguyen2k/godal/sql"
 	"github.com/btnguyen2k/prom"
 	_ "github.com/go-sql-driver/mysql"
+	"main/src/goapi"
 	"strings"
 	"time"
 )
 
 // newMysqlConnection is helper method to create connection pool to MySQL server
 func newMysqlConnection() *prom.SqlConnect {
-	timeoutMs := 10000
-	timezone := "Asia/Ho_Chi_Minh"
+	// read from config or use default value
 	driver := "mysql"
-	dsn := "test:test@tcp(localhost:3306)/test?charset=utf8mb4,utf8&parseTime=true&loc="
-	dsn = dsn + strings.Replace(timezone, "/", "%2f", -1)
-	if sqlConnect, err := prom.NewSqlConnectWithFlavor(driver, dsn, timeoutMs, nil, prom.FlavorMySql); err != nil {
+	timeoutMs := goapi.AppConfig.GetInt32("dao$boname__lower$.mysql.timeout", 10000)
+	timezone := goapi.AppConfig.GetString("dao$boname__lower$.mysql.timezone", "Asia/Ho_Chi_Minh")
+	dsn := goapi.AppConfig.GetString("dao$boname__lower$.mysql.dsn",
+		"test:test@tcp(localhost:3306)/test?charset=utf8mb4,utf8&parseTime=true&loc="+strings.Replace(timezone, "/", "%2f", -1))
+	if sqlConnect, err := prom.NewSqlConnectWithFlavor(driver, dsn, int(timeoutMs), nil, prom.FlavorMySql); err != nil {
 		panic(err)
 	} else if sqlConnect == nil {
 		panic("error creating [prom.SqlConnect] instance")
@@ -34,9 +36,9 @@ func new$boname;format="Camel"$DaoMysql(sqlc *prom.SqlConnect, tableName string)
 	dao.GenericDaoSql = sql.NewGenericDaoSql(sqlc, godal.NewAbstractGenericDao(dao))
 	dao.SetRowMapper(&sql.GenericRowMapperSql{
 		NameTransformation:          sql.NameTransfLowerCase,
-		GboFieldToColNameTranslator: map[string]map[string]interface{}{tableName: mapFieldToColName$boname;format="Camel"$},
-		ColNameToGboFieldTranslator: map[string]map[string]interface{}{tableName: mapColNameToField$boname;format="Camel"$},
-		ColumnsListMap:              map[string][]string{tableName: cols$boname;format="Camel"$},
+		GboFieldToColNameTranslator: map[string]map[string]interface{}{tableName: mapMysqlFieldToColName$boname;format="Camel"$},
+		ColNameToGboFieldTranslator: map[string]map[string]interface{}{tableName: mapMysqlColNameToField$boname;format="Camel"$},
+		ColumnsListMap:              map[string][]string{tableName: colsMysql$boname;format="Camel"$},
 	})
 	dao.SetSqlFlavor(prom.FlavorMySql)
 	return dao
@@ -54,23 +56,23 @@ CREATE TABLE IF NOT EXISTS tbl_$boname__lower$ (
 */
 
 const (
-	table$boname;format="Camel"$    = "tbl_$boname__lower$"
-	col$boname;format="Camel"$Id    = "id"
-	col$boname;format="Camel"$Name  = "val_str"
-	col$boname;format="Camel"$Value = "val_int"
+	tableMysql$boname;format="Camel"$    = "tbl_$boname__lower$"
+	colMysql$boname;format="Camel"$Id    = "id"
+	colMysql$boname;format="Camel"$Name  = "val_str"
+	colMysql$boname;format="Camel"$Value = "val_int"
 )
 
 var (
-	cols$boname;format="Camel"$              = []string{col$boname;format="Camel"$Id, col$boname;format="Camel"$Name, col$boname;format="Camel"$Value}
-	mapFieldToColName$boname;format="Camel"$ = map[string]interface{}{
-		field$boname;format="Camel"$Id   : col$boname;format="Camel"$Id,
-		field$boname;format="Camel"$Name : col$boname;format="Camel"$Name,
-		field$boname;format="Camel"$Value: col$boname;format="Camel"$Value,
+	colsMysql$boname;format="Camel"$              = []string{colMysql$boname;format="Camel"$Id, colMysql$boname;format="Camel"$Name, colMysql$boname;format="Camel"$Value}
+	mapMysqlFieldToColName$boname;format="Camel"$ = map[string]interface{}{
+		field$boname;format="Camel"$Id   : colMysql$boname;format="Camel"$Id,
+		field$boname;format="Camel"$Name : colMysql$boname;format="Camel"$Name,
+		field$boname;format="Camel"$Value: colMysql$boname;format="Camel"$Value,
 	}
-	mapColNameToField$boname;format="Camel"$ = map[string]interface{}{
-		col$boname;format="Camel"$Id   : field$boname;format="Camel"$Id,
-		col$boname;format="Camel"$Name : field$boname;format="Camel"$Name,
-		col$boname;format="Camel"$Value: field$boname;format="Camel"$Value,
+	mapMysqlColNameToField$boname;format="Camel"$ = map[string]interface{}{
+		colMysql$boname;format="Camel"$Id   : field$boname;format="Camel"$Id,
+		colMysql$boname;format="Camel"$Name : field$boname;format="Camel"$Name,
+		colMysql$boname;format="Camel"$Value: field$boname;format="Camel"$Value,
 	}
 )
 
@@ -81,7 +83,7 @@ type $boname;format="Camel"$DaoMysql struct {
 
 // GdaoCreateFilter implements IGenericDao.GdaoCreateFilter
 func (dao *$boname;format="Camel"$DaoMysql) GdaoCreateFilter(_ string, bo godal.IGenericBo) interface{} {
-	return map[string]interface{}{col$boname;format="Camel"$Id: bo.GboGetAttrUnsafe(field$boname;format="Camel"$Id, reddo.TypeString)}
+	return map[string]interface{}{colMysql$boname;format="Camel"$Id: bo.GboGetAttrUnsafe(field$boname;format="Camel"$Id, reddo.TypeString)}
 }
 
 // ‭toBo transforms godal.IGenericBo to business object.
@@ -123,7 +125,7 @@ func (dao *$boname;format="Camel"$DaoMysql) Create(bo *$boname;format="Camel"$) 
 
 // Get implements $boname;format="Camel"$Dao.Get
 func (dao *$boname;format="Camel"$DaoMysql) Get(id string) (*$boname;format="Camel"$, error) {
-	gbo, err := dao.GdaoFetchOne(dao.tableName, map[string]interface{}{col$boname;format="Camel"$Id: id})
+	gbo, err := dao.GdaoFetchOne(dao.tableName, map[string]interface{}{colMysql$boname;format="Camel"$Id: id})
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +135,7 @@ func (dao *$boname;format="Camel"$DaoMysql) Get(id string) (*$boname;format="Cam
 // GetN implements $boname;format="Camel"$Dao.GetN
 func (dao *$boname;format="Camel"$DaoMysql) GetN(fromOffset, maxNumRows int) ([]*$boname;format="Camel"$, error) {
 	// order ascending by "id" column
-	ordering := (&sql.GenericSorting{Flavor: dao.GetSqlFlavor()}).Add(col$boname;format="Camel"$Id)
+	ordering := (&sql.GenericSorting{Flavor: dao.GetSqlFlavor()}).Add(colMysql$boname;format="Camel"$Id)
 	gboList, err := dao.GdaoFetchMany(dao.tableName, nil, ordering, fromOffset, maxNumRows)
 	if err != nil {
 		return nil, err
