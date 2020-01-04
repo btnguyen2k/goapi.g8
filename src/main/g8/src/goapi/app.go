@@ -13,6 +13,7 @@ import (
 	"main/src/utils"
 	"net"
 	"os"
+	"regexp"
 	"time"
 )
 
@@ -102,13 +103,22 @@ func initEchoServer() {
 	}
 	listenAddr := AppConfig.GetString("api.http.listen_addr", "127.0.0.1")
 	e := echo.New()
+
 	requestTimeout := AppConfig.GetTimeDuration("api.request_timeout", time.Duration(0))
 	if requestTimeout > 0 {
 		e.Server.ReadTimeout = requestTimeout
 	}
+
 	bodyLimit := AppConfig.GetByteSize("api.max_request_size")
 	if bodyLimit != nil && bodyLimit.Int64() > 0 {
 		e.Use(middleware.BodyLimit(bodyLimit.String()))
+	}
+
+	allowOgirinsStr := AppConfig.GetString("api.http.allow_origins", "*")
+	if allowOgirins := regexp.MustCompile("[,;\\s]+").Split(allowOgirinsStr, -1); len(allowOgirins) > 0 {
+		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: allowOgirins,
+		}))
 	}
 
 	// register API http endpoints

@@ -9,5 +9,5 @@ package goapi
 
 const (
 	// Version of goapi
-	Version = "0.4.r3"
+	Version = "0.4.r4"
 )
