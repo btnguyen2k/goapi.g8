@@ -2,7 +2,7 @@
 
 Giter8 template to develop `API server / Microservices` in Go using Echo framework.
 
-Latest release: [template-v0.4.r3](RELEASE-NOTES.md).
+Latest release: [template-v0.4.r4](RELEASE-NOTES.md).
 
 ## Features
 

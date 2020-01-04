@@ -1,5 +1,11 @@
 # go_echo-microservices-seed.g8 Release Notes
 
+## 2020-01-04: template-v0.4.r4
+
+- Add `api.http.allow_origins` configurations.
+- Enable `middleware.CORS` with `AllowOrigins`.
+
+
 ## 2020-01-02: template-v0.4.r3
 
 - Renamed to `goapi`.
